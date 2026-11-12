@@ -1,0 +1,1 @@
+Precooling Strategy Allows Exponentially Faster Heating

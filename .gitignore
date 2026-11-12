@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+
+.venv/
+venv/
+
+figures/*.png
+figures/*.jpg
+
+data/*.npz
+
+.vscode/
+.idea/
+
+*.log
