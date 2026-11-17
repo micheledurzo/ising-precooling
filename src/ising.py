@@ -23,7 +23,6 @@ funziona lo stesso (identico risultato) ma e' decine di volte piu' lento.
 """
 import numpy as np
 from numba import njit
-
 J = -1.0                     # accoppiamento antiferromagnetico (J < 0)
 
 # codici delle condizioni iniziali (numba vuole numeri, non stringhe)
@@ -253,6 +252,38 @@ def quench_from_ensemble(ens, T, h, rec_attempts):
         for k in range(n_rec):
             while done < rec_attempts[k]:
                 attempt(lattice, T, h)
+                done += 1
+            M[r, k] = magnetization(lattice)
+            S[r, k] = staggered_magnetization(lattice)
+            E[r, k] = energy_per_spin(lattice, h)
+    return M, S, E
+
+
+@njit
+def run_schedule(ens, T1, t_switch, T2, h, rec_attempts):
+    """Protocollo a due stadi: la temperatura del bagno e' T1 per i primi t_switch tentativi
+    di flip e T2 dopo. Parte da ogni realizzazione di 'ens' e registra M, S, e quando il
+    numero totale di tentativi (il "tempo" in MC step, 1 MC step = 1 tentativo) raggiunge i
+    valori di rec_attempts (int64 crescente, tempo contato dall'inizio del protocollo).
+      oven        : t_switch = 0,   T2 = T_max
+      precooling  : T1 = T_cold, t_switch = tau, T2 = T_max
+      solo freddo : T1 = T_cold, t_switch molto grande
+    Ritorna tre array (n_rep, len(rec_attempts))."""
+    n_rep = ens.shape[0]
+    n_rec = len(rec_attempts)
+    M = np.empty((n_rep, n_rec))
+    S = np.empty((n_rep, n_rec))
+    E = np.empty((n_rep, n_rec))
+    for r in range(n_rep):
+        lattice = ens[r].astype(np.int64)
+        done = 0
+        for k in range(n_rec):
+            target = rec_attempts[k]
+            while done < target and done < t_switch:
+                attempt(lattice, T1, h)
+                done += 1
+            while done < target:
+                attempt(lattice, T2, h)
                 done += 1
             M[r, k] = magnetization(lattice)
             S[r, k] = staggered_magnetization(lattice)
