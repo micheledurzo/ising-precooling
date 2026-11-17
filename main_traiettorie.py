@@ -20,8 +20,12 @@ Produce (in figures/):
   fig7_traiettorie_MS.png    piano M-S: locus di equilibrio (grigio) + traiettoria (colore = tempo)
   fig7b_traiettorie_tempo.png <M>(t) e <S>(t) con i valori di equilibrio di partenza e arrivo
   dati_fig7.npz              risultati numerici (salvati PRIMA dei grafici)
-e stampa a terminale una tabella: punto di partenza e di arrivo confrontati col locus, e
-quanto la traiettoria si stacca dal locus (rispetto all'errore statistico).
+e stampa a terminale una tabella con <M>, <S> (e relativi errori) al punto di partenza e di
+arrivo della traiettoria, accanto ai valori del locus di equilibrio alle stesse temperature.
+Nelle figure le fasce attorno alle curve (azzurra) e alle righe tratteggiate (grigia/rossa)
+sono +-1 errore standard della media: partenza/arrivo e locus sono compatibili se la loro
+differenza e' minore di circa 2 volte l'errore combinato (radice della somma dei quadrati),
+non se la curva cade dentro la sola fascia del locus.
 
 Uso:
     python main_04_traiettorie.py                       # L = 10, coppie T0->Tmax, T0->Tcold, Tmax->T0
@@ -83,18 +87,6 @@ def save_fig(fig, outdir, name):
         fig.savefig(alt, dpi=150)
 
 
-def dist_to_polyline(P, poly):
-    """Distanza minima di ogni punto di P (n,2) dalla spezzata poly (m,2)."""
-    best = np.full(len(P), np.inf)
-    for a, b in zip(poly[:-1], poly[1:]):
-        ab = b - a
-        L2 = float(ab @ ab)
-        s = np.zeros(len(P)) if L2 == 0 else np.clip(((P - a) @ ab) / L2, 0.0, 1.0)
-        proj = a + s[:, None] * ab
-        best = np.minimum(best, np.hypot(*(P - proj).T))
-    return best
-
-
 # --------------------------------------------------------------------------
 # Locus di equilibrio a h = H_PAPER
 # --------------------------------------------------------------------------
@@ -148,49 +140,31 @@ def run_pairs(L, pairs, cfg):
     return rec / N, results
 
 
-def analyse(L, ts, res, locus):
-    """Confronto con il locus: partenza, arrivo e scarto massimo lungo il percorso."""
-    Ti, Tf = res["Ti"], res["Tf"]
-    Mi, Si, dMi, dSi = locus_at(locus, Ti)
-    Mf, Sf, dMf, dSf = locus_at(locus, Tf)
-    P = np.column_stack([res["M"], res["S"]])
-    # porzione di locus tra T_i e T_f
-    lo, hi = min(Ti, Tf), max(Ti, Tf)
-    sel = (locus["T"] >= lo * 0.999) & (locus["T"] <= hi * 1.001)
-    poly = np.column_stack([locus["M"][sel], locus["S"][sel]])
-    # unita': ampiezza del segmento start-end in M e in S
-    sc = np.array([max(abs(Mf - Mi), 1e-9), max(abs(Sf - Si), 1e-9)])
-    d = dist_to_polyline(P / sc, poly / sc) / np.hypot(1.0, 1.0)      # frazione della diagonale start-end
-    err = np.hypot(res["dM"] / sc[0], res["dS"] / sc[1]) / np.hypot(1.0, 1.0)
-    k = int(np.argmax(d))
-    return dict(Mi=Mi, Si=Si, Mf=Mf, Sf=Sf, dMi=dMi, dSi=dSi, dMf=dMf, dSf=dSf, dmax=d[k], t_dmax=ts[k], err_typ=float(np.median(err)),
-                err_at=float(err[k]), z=float(d[k] / max(err[k], 1e-12)),
-                dist=d, M_at=res["M"][k], S_at=res["S"][k])
+def locus_endpoints(res, locus):
+    """Valori (con errori) del locus di equilibrio a T_i e a T_f, per il confronto con la traiettoria."""
+    Mi, Si, dMi, dSi = locus_at(locus, res["Ti"])
+    Mf, Sf, dMf, dSf = locus_at(locus, res["Tf"])
+    return dict(Mi=Mi, Si=Si, dMi=dMi, dSi=dSi, Mf=Mf, Sf=Sf, dMf=dMf, dSf=dSf)
 
 
 def print_table(L, ts, results, infos):
-    print("\n" + "=" * 98)
-    print(f"TRAIETTORIE a h = {H_PAPER}  (L = {L})   <M>, <S> medie sull'insieme di realizzazioni")
-    print("=" * 98)
+    print("\n" + "=" * 100)
+    print(f"TRAIETTORIE a h = {H_PAPER}  (L = {L})   medie sull'insieme di realizzazioni, +- errore standard")
+    print("=" * 100)
     for res, inf in zip(results, infos):
-        z = lambda a, b, da, db: (abs(a - b) / max(np.hypot(da, db), 1e-12))
-        print(f"\n{T_name(res['Ti'])} -> {T_name(res['Tf'])}")
-        print(f"   t = 0       : <M> = {res['M'][0]:.4f}  <S> = {res['S'][0]:.4f}   |  locus pi({T_name(res['Ti'])}): "
-              f"<M> = {inf['Mi']:.4f}  <S> = {inf['Si']:.4f}")
-        print(f"   t = {ts[-1]:<7g}: <M> = {res['M'][-1]:.4f}  <S> = {res['S'][-1]:.4f}   |  locus pi({T_name(res['Tf'])}): "
-              f"<M> = {inf['Mf']:.4f}  <S> = {inf['Sf']:.4f}   [sweep]")
-        print(f"   scarto massimo dal locus: {100 * inf['dmax']:.1f}% della distanza start-end "
-              f"(a t = {inf['t_dmax']:.3g} sweep, dove <M> = {inf['M_at']:.4f}, <S> = {inf['S_at']:.4f});  "
-              f"errore statistico in quel punto: {100 * inf['err_at']:.1f}%  ->  scarto/errore = {inf['z']:.1f}")
-        if inf["z"] >= 5:
-            verdict = "SI' (scarto >= 5 volte l'errore)"
-        elif inf["z"] >= 3:
-            verdict = "probabile (scarto 3-5 volte l'errore: aumenta --rep per esserne sicuro)"
-        else:
-            verdict = "poco chiara (scarto confrontabile con l'errore: aumenta --rep)"
-        print(f"   la traiettoria si stacca dal locus? {verdict}")
-        print("   (nota: lo scarto e' una distanza, quindi il rumore lo gonfia un po'; l'errore del locus non e' incluso)")
-    print("=" * 98)
+        a, b = T_name(res["Ti"]), T_name(res["Tf"])
+        print(f"\n{a} -> {b}")
+        print(f"   traiettoria a t = 0 sweep   : <M> = {res['M'][0]:.4f} +- {res['dM'][0]:.4f}   "
+              f"<S> = {res['S'][0]:.4f} +- {res['dS'][0]:.4f}")
+        print(f"   locus pi({a:<6s})            : <M> = {inf['Mi']:.4f} +- {inf['dMi']:.4f}   "
+              f"<S> = {inf['Si']:.4f} +- {inf['dSi']:.4f}")
+        print(f"   traiettoria a t = {ts[-1]:<7g}sweep: <M> = {res['M'][-1]:.4f} +- {res['dM'][-1]:.4f}   "
+              f"<S> = {res['S'][-1]:.4f} +- {res['dS'][-1]:.4f}")
+        print(f"   locus pi({b:<6s})            : <M> = {inf['Mf']:.4f} +- {inf['dMf']:.4f}   "
+              f"<S> = {inf['Sf']:.4f} +- {inf['dSf']:.4f}")
+    print("\n(Confronta le coppie di righe: sono compatibili se la differenza e' minore di circa 2 volte")
+    print(" la radice della somma dei quadrati dei due errori.)")
+    print("=" * 100)
 
 
 # --------------------------------------------------------------------------
@@ -226,7 +200,7 @@ def fig_plane(L, ts, results, infos, locus, outdir):
                 label=f"arrivo atteso: pi({T_name(Tf)})")
         ax.autoscale()
         ax.margins(0.08)
-        ax.set_title(f"{T_name(Ti)} -> {T_name(Tf)}   (scarto max dal locus: {100 * inf['dmax']:.0f}%)")
+        ax.set_title(f"{T_name(Ti)} -> {T_name(Tf)}")
         ax.set_xlabel(r"$\langle M\rangle$")
         ax.set_ylabel(r"$\langle S\rangle$")
         ax.grid(alpha=0.3)
@@ -262,7 +236,8 @@ def fig_time(L, ts, results, infos, outdir):
                 sec.set_xlabel("t  (singoli tentativi di flip)", fontsize=8)
             if r == 1:
                 ax.set_xlabel("t  (MC sweep)")
-    fig.suptitle(f"Rilassamento di M e S dopo il cambio di temperatura  (h = {H_PAPER},  L = {L})")
+    fig.suptitle(f"Rilassamento di M e S dopo il cambio di temperatura  (h = {H_PAPER},  L = {L};  "
+                 "fasce = +-1 errore standard)")
     save_fig(fig, outdir, "fig7b_traiettorie_tempo.png")
 
 
@@ -315,7 +290,7 @@ if __name__ == "__main__":
     # 2) traiettorie
     print("traiettorie ...")
     ts, results = run_pairs(L, pairs, cfg)
-    infos = [analyse(L, ts, r, locus) for r in results]
+    infos = [locus_endpoints(r, locus) for r in results]
 
     try:
         np.savez(os.path.join(outdir, "dati_fig7.npz"), t=ts, locus_T=locus["T"], locus_M=locus["M"],

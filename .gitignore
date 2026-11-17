@@ -4,8 +4,6 @@ __pycache__/
 .venv/
 venv/
 
-figures/*.png
-figures/*.jpg
 
 data/*.npz
 
