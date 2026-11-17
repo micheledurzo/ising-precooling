@@ -45,6 +45,9 @@ Uso:
     python main_05_protocolli.py --tcold 0.00125    # T_cold diverso
     python main_05_protocolli.py --scan --tau 1850  # fa anche la scansione
     python main_05_protocolli.py --quick            # run velocissimo per controllare che giri
+    python main_05_protocolli.py --locus-file figures/dati_locus_fig8.npz   # riusa il locus gia' calcolato
+        (il locus viene salvato in dati_locus_fig8.npz a ogni run senza --locus-file; vale solo per lo
+         stesso L e lo stesso T_cold: se cambi --tcold ricalcolalo)
 Stima dei tempi con numba: L = 10 -> ~1 min; L = 70 con 4000 realizzazioni -> decine di minuti
 (riduci --rep e --scan-rep per prove veloci).
 """
@@ -62,7 +65,7 @@ T0, TMAX = 0.125, 0.625
 TCOLD = 0.0125                       # modificabile con --tcold
 
 # Parametri "in unita' di N" dove ha senso (N = L*L): tutto in MC step (tentativi) alla fine.
-FULL = dict(n_rep=4000, burn_N=200, tmax_N=50, n_rec=60, scan_rep=2000, scan_nT=12,
+FULL = dict(n_rep=4000, burn_N=100, tmax_N=50, n_rec=60, scan_rep=2000, scan_nT=12,
             tau_lo_N=0.05, tau_hi_N=30, win_lo_N=2, win_hi_N=6, win_pts=5,
             locus_nT=16, locus_rep=30, locus_burn=500, locus_meas=1000)
 QUICK = dict(n_rep=150, burn_N=30, tmax_N=10, n_rec=30, scan_rep=150, scan_nT=6,
@@ -120,10 +123,54 @@ def compute_locus(L, T_values, cfg):
                 dM=err["M"], dS=err["S"], de=err["e"])
 
 
+LOCUS_FILE = "dati_locus_fig8.npz"
+
+
+def save_locus(outdir, L, locus):
+    """Salva il locus (con errori) per poterlo riusare con --locus-file."""
+    try:
+        np.savez(os.path.join(outdir, LOCUS_FILE), L=L, h=H_PAPER, **locus)
+        print(f"   locus salvato in {os.path.join(outdir, LOCUS_FILE)}  (riusabile con --locus-file)")
+    except OSError as e:
+        print(f"   (locus non salvato: {e})")
+
+
+def load_locus(path, L, cfg):
+    """Legge un locus salvato. Accetta il file di questo script (dati_locus_fig8.npz) oppure
+    dati_fig4.npz di main_01 (senza energia: e_eq a T_max viene allora ricalcolata qui)."""
+    d = np.load(path)
+    if "L" in d and int(d["L"]) != L:
+        raise SystemExit(f"Il locus in {path} e' stato calcolato con L = {int(d['L'])}, ma ora L = {L}.")
+    if "L" not in d:
+        print("   ATTENZIONE: il file non contiene L: verifica che sia stato calcolato con lo stesso L!")
+    n = len(d["T"])
+    zeros = np.zeros(n)
+    locus = dict(T=d["T"], M=d["M"], S=d["S"], dM=d["dM"] if "dM" in d else zeros,
+                 dS=d["dS"] if "dS" in d else zeros)
+    if "e" in d:
+        locus["e"] = d["e"]
+        locus["de"] = d["de"] if "de" in d else zeros
+    else:
+        i = int(np.argmin(np.abs(np.log(locus["T"] / TMAX))))
+        if not np.isclose(locus["T"][i], TMAX):
+            raise SystemExit("Nel file non c'e' T_max nella griglia delle temperature: non posso ricavare e_eq.")
+        print("   il file non contiene l'energia: ricalcolo e_eq(T_max) ...")
+        out = ising.equilibrium_point(L, TMAX, H_PAPER, cfg["locus_burn"], cfg["locus_meas"],
+                                      cfg["locus_rep"], ising.INIT["random"])
+        locus["e"] = np.full(n, np.nan)
+        locus["de"] = np.full(n, np.nan)
+        locus["e"][i], locus["de"][i] = out[:, 2].mean(), sem(out[:, 2])
+    return locus
+
+
 def locus_at(locus, T):
     """Valori e errori (M, S, e) del locus a temperatura T (interpolazione in log T)."""
     x = np.log(locus["T"])
-    return {k: float(np.interp(np.log(T), x, locus[k])) for k in ("M", "S", "e", "dM", "dS", "de")}
+    out = {}
+    for k in ("M", "S", "e", "dM", "dS", "de"):
+        ok = np.isfinite(locus[k])
+        out[k] = float(np.interp(np.log(T), x[ok], locus[k][ok]))
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -353,6 +400,7 @@ if __name__ == "__main__":
     ap.add_argument("--tmax", type=int, help="durata del riscaldamento in MC step")
     ap.add_argument("--win", type=int, nargs=2, metavar=("W1", "W2"),
                     help="finestra di tempo di riscaldamento (MC step) per la scelta di tau")
+    ap.add_argument("--locus-file", help="npz del locus da riusare, es. figures/dati_locus_fig8.npz (creato da questo script) oppure figures/dati_fig4.npz")
     ap.add_argument("--tcold", type=float, default=TCOLD)
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--no-show", action="store_true")
@@ -385,8 +433,16 @@ if __name__ == "__main__":
 
     t0 = time.time()
     # 1) locus di equilibrio (curva grigia e valori di equilibrio a T_max)
-    print("locus di equilibrio ...")
-    locus = compute_locus(L, locus_grid([TCOLD, T0, TMAX], cfg["locus_nT"]), cfg)
+    if args.locus_file:
+        locus = load_locus(args.locus_file, L, cfg)
+        print(f"   locus letto da {args.locus_file}")
+        for T in (TCOLD, T0, TMAX):
+            if not np.any(np.isclose(locus["T"], T)):
+                print(f"   ATTENZIONE: T = {T:g} non e' nella griglia del file (uso l'interpolazione)")
+    else:
+        print("locus di equilibrio ...")
+        locus = compute_locus(L, locus_grid([TCOLD, T0, TMAX], cfg["locus_nT"]), cfg)
+        save_locus(outdir, L, locus)
     eq = locus_at(locus, TMAX)
 
     # 2) insiemi iniziali
