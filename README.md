@@ -4,11 +4,11 @@ Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la c
 
 ## Analisi dell'equilibrio ##
 ![Rilassamento all'equilibrio](figures/rilassamento.png)
-![Curve di equilibrio nel piano <M> vs <S> per diversi valori del campo h](figures/eq_locus per h)
-![Curva di equilibrio per L=70 e h=1.0025](figures/equilibrio L=70)
+![Curve di equilibrio nel piano <M> vs <S> per diversi valori del campo h](figures/eq_locus_per_h.png)
+![Curva di equilibrio per L=70 e h=1.0025](figures/equilibrio_L_70.png)
 
 ## Traiettorie fuori equilibrio ##
-![Traiettorie fuori equilibrio](figures/traiettorie_fuori_eq)
+![Traiettorie fuori equilibrio](figures/traiettorie_fuori_eq.png)
 
 ## Struttura dei codici ##
 - `src/`: implementazione del modello
