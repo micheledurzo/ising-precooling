@@ -38,7 +38,7 @@ Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la c
 
 ## Traiettorie fuori equilibrio 
 <p align="center">
-  <img src="figures/traiettorie_fuori_eq.png" width="700">
+  <img src="figures/traiettorie_fuori_eq.png" width="900">
   <br>
   <em>
   Figura 4: Traiettorie fuori equilibrio
