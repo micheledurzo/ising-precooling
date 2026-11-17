@@ -11,18 +11,32 @@ Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la c
   </em>
 </p>
 
-![Curve di equilibrio nel piano <M> vs <S> per diversi valori del campo h](figures/eq_locus_per_h.png)
-![Curva di equilibrio per L=70 e h=1.0025](figures/equilibrio_L_70.png)
+
+<p align="center">
+  <img src="figures/eq_locus_per_h.png" width="700">
+  <br>
+  <em>
+  Figura 2: Curve di equilibrio nel piano <M> vs <S> per diversi valori del campo h
+  </em>
+</p>
+
+
 <p align="center">
   <img src="figures/equilibrio_L_70.png" width="700">
   <br>
   <em>
-  Figura 3. Curva di equilibrio nel piano ⟨M⟩-⟨S⟩ per L=70 e h=1.0025.
+  Figura 3: Curva di equilibrio per L=70 e h=1.0025
   </em>
 </p>
 
 ## Traiettorie fuori equilibrio ##
-![Traiettorie fuori equilibrio](figures/traiettorie_fuori_eq.png)
+<p align="center">
+  <img src="figures/traiettorie_fuori_eq.png" width="700">
+  <br>
+  <em>
+  Figura 4: Traiettorie fuori equilibrio
+  </em>
+</p>
 
 ## Struttura dei codici ##
 - `src/`: implementazione del modello
