@@ -3,9 +3,23 @@ Il progetto ha come obiettivo lo sviluppo della numerica e delle simulazioni in 
 Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la chiarezza. Le immagini e i grafici principali ottenuti sono riportati di seguito.
 
 ## Analisi dell'equilibrio ##
-![Rilassamento all'equilibrio](figures/rilassamento.png)
+<p align="center">
+  <img src="figures/rilassamento.png" width="700">
+  <br>
+  <em>
+  Figura 1: Rilassamento all'equilibrio
+  </em>
+</p>
+
 ![Curve di equilibrio nel piano <M> vs <S> per diversi valori del campo h](figures/eq_locus_per_h.png)
 ![Curva di equilibrio per L=70 e h=1.0025](figures/equilibrio_L_70.png)
+<p align="center">
+  <img src="figures/equilibrio_L_70.png" width="700">
+  <br>
+  <em>
+  Figura 3. Curva di equilibrio nel piano ⟨M⟩-⟨S⟩ per L=70 e h=1.0025.
+  </em>
+</p>
 
 ## Traiettorie fuori equilibrio ##
 ![Traiettorie fuori equilibrio](figures/traiettorie_fuori_eq.png)
@@ -16,6 +30,6 @@ Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la c
 - `main_eq_locus.py`: implementazione del diagramma di fase e del locus di equilibrio
 - `main_traiettorie.py`: studio delle traiettorie fuori equilibrio
 - `figures/`: output delle simulazioni
-- 
+
 ## Author ##
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
