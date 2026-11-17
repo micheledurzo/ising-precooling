@@ -23,7 +23,7 @@ Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la c
   <img src="figures/eq_locus_per_h.png" width="700">
   <br>
   <em>
-  Figura 2: Curve di equilibrio nel piano `<M>` vs `<S>` per diversi valori del campo h
+  Figura 2: Curve di equilibrio nel piano \<M>\ vs \<S>\ per diversi valori del campo h
   </em>
 </p>
 
