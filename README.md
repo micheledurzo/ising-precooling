@@ -34,10 +34,10 @@ A T_cold le configurazioni casuale e "all up" mostrano un delle curve sovrapponi
 
 
 <p align="center">
-  <img src="figures/equilibrio_L_70.png" width="700">
+  <img src="figures/ufficiali/locus_equilibrio.png" width="700">
   <br>
   <em>
-  Figura 3: Curva di equilibrio per L=70 e h=1.0025
+  Figura 3: Curva di equilibrio
   </em>
 </p>
 
