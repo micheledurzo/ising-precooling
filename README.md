@@ -7,6 +7,8 @@ Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la c
 - `main_eq.py`: studio dell'equilibrio di Ising AFM
 - `main_eq_locus.py`: implementazione del diagramma di fase e del locus di equilibrio
 - `main_traiettorie.py`: studio delle traiettorie fuori equilibrio
+- `main_protocols.py`: sviluppo dei protocolli oven e precooling
+- `main_lineare.py`: grafici lineari e semilog degli andamenti esponenziali
 - `figures/`: output delle simulazioni
 
 ## Analisi dell'equilibrio 
