@@ -12,8 +12,11 @@ Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la c
 - `figures/`: output delle simulazioni
 
 ## Analisi dell'equilibrio 
+Studio dell'equilibrio del modello di Ising 2D AFM con campo su un reticolo LxL. Tutte le condizioni iniziali convergono allo stesso valore del punto della curva di equilibrio.\
+A T_cold le configurazioni casuale e "all up" mostrano un delle curve sovrapponibili sia in M che in S. Il rilassamento è quindi dominato dalla distruzione dell'ordine staggered piuttosto che dalla crescita della magnetizzazione uniforme.
+
 <p align="center">
-  <img src="figures/rilassamento.png" width="700">
+  <img src="figures/ufficiali/relaxing.png" width="700">
   <br>
   <em>
   Figura 1: Rilassamento all'equilibrio
