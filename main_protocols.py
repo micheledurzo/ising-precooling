@@ -25,10 +25,10 @@ riscaldamento [w1, w2] MC step dopo il cambio a T_max (default [2N, 6N]) e si sc
 minimo. Idea del paper: il tau giusto annulla l'ampiezza del modo lento, quindi dopo il tempo "veloce" il
 sistema e' gia' in pi(T_max) e la distanza crolla molto prima che nell'oven.
 
-ATTENZIONE: con T_cold = 0.0125 (default) l'effetto del precooling e' DEBOLE sulle taglie piccole
-(la finestra e' quasi piatta in tau e l'oven partito da T_cold e' gia' buono quanto il precooling).
-Con --tcold 0.00125 l'effetto e' netto e il tau ottimo e' ~0.4 sweep ~ 1850 MC step a L = 70 come nel paper.
-Questo e' coerente con la discrepanza gia' vista su <M>(T_cold) rispetto al paper. Il default resta 0.0125.
+NOTA su T_cold: il default e' 0.00125. Con questo valore l'effetto del precooling e' netto e il tau ottimo
+e' ~0.4 sweep ~ 1850 MC step a L = 70, come nel paper. Con T_cold = 0.0125 (--tcold 0.0125) l'effetto e'
+debole (finestra quasi piatta in tau, l'oven partito da T_cold e' gia' buono quanto il precooling).
+Se cambi --tcold ricalcola il locus (non riusare il file salvato).
 
 Produce (in figures/):
   fig8_protocolli.png     sinistra: piano M-S con locus di equilibrio e le traiettorie dei protocolli
@@ -62,12 +62,15 @@ from src import ising
 
 H_PAPER = 1.0025
 T0, TMAX = 0.125, 0.625
-TCOLD = 0.0125                       # modificabile con --tcold
+TCOLD = 0.00125                      # modificabile con --tcold
 
 # Parametri "in unita' di N" dove ha senso (N = L*L): tutto in MC step (tentativi) alla fine.
-FULL = dict(n_rep=4000, burn_N=100, tmax_N=50, n_rec=60, scan_rep=2000, scan_nT=12,
+FULL = dict(n_rep=4000, burn_N=200, tmax_N=200, n_rec=80, scan_rep=2000, scan_nT=12,
             tau_lo_N=0.05, tau_hi_N=30, win_lo_N=2, win_hi_N=6, win_pts=5,
             locus_nT=16, locus_rep=30, locus_burn=500, locus_meas=1000)
+LIN_MAX_N = 30      # la parte lineare della griglia dei tempi arriva a 30*N MC step
+N_LIN = 90          # numero di punti della parte lineare
+
 QUICK = dict(n_rep=150, burn_N=30, tmax_N=10, n_rec=30, scan_rep=150, scan_nT=6,
              tau_lo_N=0.05, tau_hi_N=8, win_lo_N=2, win_hi_N=6, win_pts=4,
              locus_nT=8, locus_rep=4, locus_burn=40, locus_meas=40)
@@ -176,9 +179,12 @@ def locus_at(locus, T):
 # --------------------------------------------------------------------------
 # Simulazione dei protocolli (tempi in MC step = tentativi di flip)
 # --------------------------------------------------------------------------
-def time_grid(t_max, n_rec):
-    """Griglia di tempi di riscaldamento (MC step, interi) logaritmica da 1 a t_max."""
-    return np.unique(np.round(np.geomspace(1, t_max, n_rec)).astype(np.int64))
+def time_grid(t_max, n_rec, N):
+    """Griglia di tempi di riscaldamento (MC step, interi): logaritmica da 1 a t_max, piu' una parte
+    lineare da 0 a 30*N (per i grafici in scala lineare)."""
+    log_part = np.geomspace(1, t_max, n_rec)
+    lin_part = np.linspace(0, min(t_max, LIN_MAX_N * N), N_LIN)      # serve ai grafici in scala lineare
+    return np.unique(np.round(np.concatenate([log_part, lin_part])).astype(np.int64))
 
 
 def run_oven(ens, Tm, rec):
@@ -302,21 +308,17 @@ def fig_main(L, Tc, locus, eq, oven, gray, cold, pres, outdir):
         d = p["E"] - eq["e"]
         e = np.hypot(p["dE"], eq["de"])
         y = np.abs(d)
-        line, = axe.plot(t[ok], y[ok], **kw)
-        axe.fill_between(t[ok], np.maximum(y[ok] - e[ok], 1e-12), y[ok] + e[ok], color=line.get_color(),
-                         alpha=0.18, lw=0)
+        axe.plot(t[ok], y[ok], **kw)
         return e[ok]
 
-    floors = []
+    floors = []      # errori sull'ultimo punto: servono solo a fissare il limite inferiore dell'asse y
     floors.append(curve(oven["t"], oven, color="tab:blue", lw=2, label=r"oven: $T_0 \to T_{max}$"))
-    floors.append(curve(gray["t"], gray, color="tab:green", lw=1.6, label=r"oven da $\pi(T_{cold})$"))
     floors.append(curve(cold["t"], cold, color="tab:orange", lw=1.6, ls=":", label=r"resta a $T_{cold}$"))
     for k, pc in enumerate(pres):
         col = cmap(0.45 + 0.5 * (k + 1) / len(pres))
         floors.append(curve(pc["t"], pc, color=col, lw=2, label=f"precooling, tau = {pc['tau']}"))
         axe.axvline(pc["tau"], color=col, ls="--", lw=0.9)
     floor = min(f[-1] for f in floors)
-    axe.axhline(floor, color="0.4", ls="-.", lw=0.9, label="rumore statistico (1 sem)")
     axe.set_xscale("log")
     axe.set_yscale("log")
     axe.set_ylim(bottom=0.4 * floor)
@@ -328,7 +330,7 @@ def fig_main(L, Tc, locus, eq, oven, gray, cold, pres, outdir):
     sec = axe.secondary_xaxis("top", functions=(lambda x: x / N, lambda x: x * N))
     sec.set_xlabel("t  (sweep = L*L MC step)", fontsize=8)
     fig.suptitle(f"Protocolli oven e precooling   (h = {H_PAPER},  L = {L},  T_0 = {T0:g},  T_cold = {Tc:g},"
-                 f"  T_max = {TMAX:g};  fasce = +-1 errore standard)")
+                 f"  T_max = {TMAX:g})")
     save_fig(fig, outdir, "fig8_protocolli.png")
 
 
@@ -471,7 +473,7 @@ if __name__ == "__main__":
 
     # 4) protocolli completi
     print("protocolli ...")
-    t_grid = time_grid(t_max, cfg["n_rec"])
+    t_grid = time_grid(t_max, cfg["n_rec"], N)
     check = np.array([c for c in (N // 2, N, 2 * N, 5 * N, 10 * N) if c <= t_max], dtype=np.int64)
     rec = np.unique(np.concatenate([[0], t_grid, check])).astype(np.int64)
     oven = run_oven(ens0, TMAX, rec)
