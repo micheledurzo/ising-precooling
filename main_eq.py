@@ -52,12 +52,12 @@ PAPER_REF = {
  
 # ---- configurazioni ------------------------------------------------------
 FULL = dict(
-    n_relax=3000, n_rep_relax=100,                               # fig1
+    n_relax=10000, n_rep_relax=40,                               # fig1
     H_list=[0.0, 0.5, H_PAPER, 1.5],                             # fig2
-    n_T=30, n_burn=3000, n_meas=2000, n_rep=30,
-    n_T_curve=30, n_burn_curve=3000, n_meas_curve=3000, n_rep_curve=15,   # fig4
-    h_map=np.linspace(0.0, 2.0, 21),                             # fig3
-    n_T_map=22, n_burn_map=1000, n_meas_map=500, n_rep_map=10,
+    n_T=35, n_burn=3000, n_meas=2000, n_rep=30,
+    n_T_curve=50, n_burn_curve=5000, n_meas_curve=5000, n_rep_curve=25,   # fig4
+    h_map=np.linspace(0.0, 2.0, 17),                             # fig3
+    n_T_map=18, n_burn_map=1500, n_meas_map=800, n_rep_map=8,
     n_burn_pts=20000, n_meas_pts=20000, n_rep_pts=40,            # tabella
 )
 QUICK = dict(
