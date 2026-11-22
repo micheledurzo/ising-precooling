@@ -11,10 +11,9 @@ Protocollo (un "quench" di temperatura del bagno), a h = h_paper:
 All'inizio il sistema e' nel punto del locus pi(T_i); alla fine (t grande) in pi(T_f);
 nel mezzo <M>(t), <S>(t) escono dal locus perche' M e S rilassano con tempi diversi.
 
-Il tempo e' misurato in sweep (1 sweep = L*L tentativi di flip) e registrato con
-risoluzione fine (anche sotto lo sweep); sull'asse in alto delle figure c'e' lo stesso
-tempo in singoli tentativi di flip (= sweep x L*L), nel caso il "MC step" del paper
-sia un singolo tentativo.
+Il tempo e' misurato in MC STEP, dove 1 MC step = UN singolo tentativo di flip (quindi 1 sweep =
+L*L MC step) e registrato anche a tempi molto inferiori allo sweep; sull'asse in alto delle figure
+c'e' lo stesso tempo in sweep (= MC step / (L*L)).
 
 Produce (in figures/):
   fig7_traiettorie_MS.png    piano M-S: locus di equilibrio (grigio) + traiettoria (colore = tempo)
@@ -33,6 +32,7 @@ Uso:
     python main_04_traiettorie.py --L 70 --rep 5000     # come nel paper (lento: vedi sotto)
     python main_04_traiettorie.py --locus-file figures/dati_fig4.npz   # riusa il locus gia' calcolato
     python main_04_traiettorie.py --quick               # run velocissimo per controllare che giri
+(--tmax e' in MC step; --burn resta in sweep di preparazione.)
 Stima dei tempi con numba: L = 10 -> pochi secondi; L = 70 con 5000 realizzazioni -> alcuni minuti.
 """
 import argparse
@@ -50,8 +50,8 @@ H_PAPER = 1.0025
 T0, TMAX = 0.125, 0.625
 TCOLD = 0.0125                       # modificabile con --tcold
 
-FULL = dict(n_rep=4000, n_burn=300, t_max=200, n_rec=70,
-            locus_nT=16, locus_rep=30, locus_burn=500, locus_meas=1000)
+FULL = dict(n_rep=4000, n_burn=300, t_max=200, n_rec=70,   # t_max, n_burn e gli altri in SWEEP: convertito in MC step (x N)
+            locus_nT=21, locus_rep=30, locus_burn=500, locus_meas=1000)
 QUICK = dict(n_rep=60, n_burn=40, t_max=20, n_rec=25,
              locus_nT=8, locus_rep=4, locus_burn=40, locus_meas=40)
 
@@ -122,9 +122,9 @@ def locus_at(locus, T):
 # Traiettorie
 # --------------------------------------------------------------------------
 def run_pairs(L, pairs, cfg):
-    """Per ogni coppia (T_i, T_f) calcola <M>(t), <S>(t), <e>(t) con errori."""
+    """Per ogni coppia (T_i, T_f) calcola <M>(t), <S>(t), <e>(t) con errori; t in MC step."""
     N = L * L
-    rec = np.unique(np.concatenate([[0], np.round(np.geomspace(1, cfg["t_max"] * N, cfg["n_rec"]))
+    rec = np.unique(np.concatenate([[0], np.round(np.geomspace(1, cfg["t_max_steps"], cfg["n_rec"]))
                                     .astype(np.int64)]))
     ensembles = {}
     results = []
@@ -137,7 +137,7 @@ def run_pairs(L, pairs, cfg):
         results.append(dict(Ti=Ti, Tf=Tf, M=M.mean(0), S=S.mean(0), E=E.mean(0),
                             dM=sem(M), dS=sem(S), dE=sem(E)))
         print(f"   {T_name(Ti)} -> {T_name(Tf)} fatto ({time.time() - t_start:5.1f} s)", flush=True)
-    return rec / N, results
+    return rec, results                       # tempi in MC step (tentativi di flip)
 
 
 def locus_endpoints(res, locus):
@@ -154,11 +154,11 @@ def print_table(L, ts, results, infos):
     for res, inf in zip(results, infos):
         a, b = T_name(res["Ti"]), T_name(res["Tf"])
         print(f"\n{a} -> {b}")
-        print(f"   traiettoria a t = 0 sweep   : <M> = {res['M'][0]:.4f} +- {res['dM'][0]:.4f}   "
+        print(f"   traiettoria a t = 0 MC step : <M> = {res['M'][0]:.4f} +- {res['dM'][0]:.4f}   "
               f"<S> = {res['S'][0]:.4f} +- {res['dS'][0]:.4f}")
         print(f"   locus pi({a:<6s})            : <M> = {inf['Mi']:.4f} +- {inf['dMi']:.4f}   "
               f"<S> = {inf['Si']:.4f} +- {inf['dSi']:.4f}")
-        print(f"   traiettoria a t = {ts[-1]:<7g}sweep: <M> = {res['M'][-1]:.4f} +- {res['dM'][-1]:.4f}   "
+        print(f"   traiettoria a t = {ts[-1]:<7g}MC step: <M> = {res['M'][-1]:.4f} +- {res['dM'][-1]:.4f}   "
               f"<S> = {res['S'][-1]:.4f} +- {res['dS'][-1]:.4f}")
         print(f"   locus pi({b:<6s})            : <M> = {inf['Mf']:.4f} +- {inf['dMf']:.4f}   "
               f"<S> = {inf['Sf']:.4f} +- {inf['dSf']:.4f}")
@@ -189,7 +189,7 @@ def fig_plane(L, ts, results, infos, locus, outdir):
         lc = LineCollection(segs, cmap="viridis", norm=norm, linewidth=2.6, zorder=3)
         lc.set_array(t_plot[1:])
         ax.add_collection(lc)
-        for tk in (0.1, 1, 10, 100):                           # tempi di riferimento
+        for tk in (10, 100, 1e3, 1e4, 1e5):                    # tempi di riferimento (MC step)
             if ts[1] < tk < ts[-1]:
                 i = int(np.argmin(np.abs(np.log(np.maximum(ts, 1e-12)) - np.log(tk))))
                 ax.plot(res["M"][i], res["S"][i], "o", color="w", mec="k", ms=5, zorder=4)
@@ -205,7 +205,7 @@ def fig_plane(L, ts, results, infos, locus, outdir):
         ax.set_ylabel(r"$\langle S\rangle$")
         ax.grid(alpha=0.3)
         ax.legend(fontsize=8, loc="best")
-    fig.colorbar(lc, ax=axes[0].tolist(), label="t  (MC sweep, 1 sweep = L*L tentativi)", shrink=0.85)
+    fig.colorbar(lc, ax=axes[0].tolist(), label="t  (MC step = 1 tentativo di flip)", shrink=0.85)
     fig.suptitle(f"Traiettorie fuori equilibrio nel piano M-S  (h = {H_PAPER},  L = {L})")
     save_fig(fig, outdir, "fig7_traiettorie_MS.png")
 
@@ -232,10 +232,10 @@ def fig_time(L, ts, results, infos, outdir):
             if r == 0:
                 ax.set_title(f"{T_name(res['Ti'])} -> {T_name(res['Tf'])}")
                 ax.legend(fontsize=8)
-                sec = ax.secondary_xaxis("top", functions=(lambda x: x * N, lambda x: x / N))
-                sec.set_xlabel("t  (singoli tentativi di flip)", fontsize=8)
+                sec = ax.secondary_xaxis("top", functions=(lambda x: x / N, lambda x: x * N))
+                sec.set_xlabel("t  (sweep = L*L MC step)", fontsize=8)
             if r == 1:
-                ax.set_xlabel("t  (MC sweep)")
+                ax.set_xlabel("t  (MC step = 1 tentativo di flip)")
     fig.suptitle(f"Rilassamento di M e S dopo il cambio di temperatura  (h = {H_PAPER},  L = {L};  "
                  "fasce = +-1 errore standard)")
     save_fig(fig, outdir, "fig7b_traiettorie_tempo.png")
@@ -248,7 +248,7 @@ if __name__ == "__main__":
     ap.add_argument("--pairs", nargs="+", default=["T0:max", "T0:cold", "max:T0"],
                     help="coppie Ti:Tf (nomi cold, T0, max oppure numeri)")
     ap.add_argument("--rep", type=int, help="numero di realizzazioni")
-    ap.add_argument("--tmax", type=float, help="tempo finale in sweep")
+    ap.add_argument("--tmax", type=float, help="tempo finale in MC step (tentativi di flip)")
     ap.add_argument("--burn", type=int, help="sweep di preparazione a T_i")
     ap.add_argument("--locus-rep", type=int, help="repliche per i punti del locus")
     ap.add_argument("--locus-file", help="npz con T, M, S (e dM, dS) del locus, es. figures/dati_fig4.npz")
@@ -273,6 +273,10 @@ if __name__ == "__main__":
     os.makedirs(outdir, exist_ok=True)
     ising.set_seed(args.seed)
     L = args.L
+    # tempo finale in MC step: --tmax e' gia' in MC step; il default e' t_max sweep = t_max*N MC step
+    cfg["t_max_steps"] = int(args.tmax) if args.tmax is not None else int(cfg["t_max"] * L * L)
+    print(f"L = {L} (N = {L * L} spin)   tempo in MC step (1 MC step = 1 tentativo di flip; 1 sweep = {L * L} MC step)"
+          f"   t_max = {cfg['t_max_steps']} MC step")
 
     t0 = time.time()
     # 1) locus di equilibrio
