@@ -56,8 +56,8 @@ FULL = dict(
     H_list=[0.0, 0.5, H_PAPER, 1.5],                             # fig2
     n_T=35, n_burn=3000, n_meas=2000, n_rep=30,
     n_T_curve=50, n_burn_curve=5000, n_meas_curve=5000, n_rep_curve=25,   # fig4
-    h_map=np.linspace(0.0, 2.0, 17),                             # fig3
-    n_T_map=18, n_burn_map=1500, n_meas_map=800, n_rep_map=8,
+    h_map=np.linspace(0.0, 2.0, 21),                             # fig3
+    n_T_map=23, n_burn_map=1500, n_meas_map=1000, n_rep_map=10,
     n_burn_pts=20000, n_meas_pts=20000, n_rep_pts=40,            # tabella
 )
 QUICK = dict(
@@ -70,9 +70,9 @@ QUICK = dict(
     n_burn_pts=150, n_meas_pts=150, n_rep_pts=4,
 )
  
-LABELS = [r"$\langle M\rangle$ (magnetizzazione)",
-          r"$\langle S\rangle$ (magn. staggered)",
-          r"$e = E/N$ (energia per spin)"]
+LABELS = [r"$\langle M\rangle$ ",
+          r"$\langle S\rangle$",
+          r"$e = E/N$"]
  
  
 # --------------------------------------------------------------------------
@@ -286,14 +286,14 @@ def fig3_mappa(L, cfg, outdir):
         ax.plot(H_PAPER, T0, "ko", ms=7, mfc="w", label=r"$T_0$")
         ax.plot(H_PAPER, TMAX, "rs", ms=7, mfc="w", label=r"$T_{max}$")
         ax.plot(H_PAPER, TCOLD, "b^", ms=7, mfc="w", label=r"$T_{cold}$")
-        ax.axvline(1.0, color="w", ls="--", lw=1)
+        ax.axvline(1.0025, color="w", ls="--", lw=1)
         ax.set_yscale("log")
         ax.set_xlabel("h")
         ax.set_ylabel("T")
         ax.set_xlim(h_e[0], h_e[-1])
         ax.set_ylim(T_e[0], T_e[-1])
     axes[0].legend(fontsize=8, loc="upper left")
-    fig.suptitle(f"Mappa di equilibrio  (L = {L};  tratteggiata: $h_c = 1$)")
+    fig.suptitle(f"Mappa di equilibrio  (L = {L};  tratteggiata: $h = 1.0025$)")
     fig.tight_layout()
     save_fig(fig, outdir, "fig3_mappa_h_T.png")
  

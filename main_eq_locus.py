@@ -42,7 +42,7 @@ TCOLD = 0.0125                      # modificabile con --tcold
 T_END = 1.2                         # ultima temperatura della griglia
 H_LIST = [0.25, 0.5, 0.99, H_PAPER, 1.01, 1.5, 2.5]
  
-FULL = dict(n_T=36, n_burn=1000, n_meas=3000, n_rep=30)
+FULL = dict(n_T=40, n_burn=2000, n_meas=3000, n_rep=30)
 QUICK = dict(n_T=9, n_burn=60, n_meas=60, n_rep=4)
 MARKERS = ("^", "o", "s")           # T_cold, T_0, T_max (stessi simboli del paper)
  
