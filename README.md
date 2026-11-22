@@ -32,15 +32,16 @@ A T_cold le configurazioni casuale e "all up" mostrano un delle curve sovrapponi
   </em>
 </p>
 
-
+Dai grafici seguenti si nota che, per h < h_c = 1, il sistema ha una transizione di fase ordine-disordine. Sotto una temperatura critica T_c(h) è ordinato alla Néel, mentre sopra di essa il campo magnetizza gli spin aumentando M e distruggendo S. (La temperatura critica dell'antiferromagnete senza campo è 2.269·|J|/4 ≈ 0.57. Per h→1 T_c tende a zero, ecco perché per h=0.99 il salto è meno ampio)
 <p align="center">
-  <img src="figures/eq_locus_per_h.png" width="700">
+  <img src="figures/ufficiali/locus_h_70.png" width="700">
   <br>
   <em>
   Figura 3: Curve di equilibrio nel piano < M > vs < S > per diversi valori del campo h
   </em>
 </p>
 
+ALLA LUCE DI QUANTO OSSERVATO SI CERCA DI APPROFONDIRE (DA AGGIUNGERE)
 
 <p align="center">
   <img src="figures/ufficiali/locus_equilibrio.png" width="700">
