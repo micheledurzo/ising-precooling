@@ -5,7 +5,8 @@ Studio dell'equilibrio del modello di Ising 2D antiferromagnetico con campo
  
 Figure (salvate in figures/):
   fig1_rilassamento   M, S, e in funzione di t da 3 condizioni iniziali, a T_cold, T_0, T_max
-  fig2_equilibrio_T   M, S, e di equilibrio in funzione di T per diversi h (asse T logaritmico)
+  fig2_equilibrio_T   M, S, e di equilibrio in funzione di T per diversi h: riga in alto T in scala
+                      logaritmica, riga in basso T in scala lineare (6 pannelli)
   fig3_mappa_h_T      mappe di M e S nel piano (h, T) (asse T logaritmico)
   fig4_curva_MS       curva di equilibrio nel piano (<M>, <S>) a h = h_paper  (come Fig. 3 del paper)
 Terminale:
@@ -18,7 +19,7 @@ Uso:
     python main_01_equilibrio.py --only table    # solo la tabella (veloce)
     python main_01_equilibrio.py --only 4        # solo la curva M-S
     python main_01_equilibrio.py --quick         # run velocissimo per controllare che giri
-    python main_01_equilibrio.py --tcold 0.00125 # altra T_cold (default 0.0125, come nella didascalia)
+    python main_01_equilibrio.py --tcold 0.0125  # altra T_cold (default 0.00125)
     python main_01_equilibrio.py --L 70 --only table --rep-pts 10 --burn-pts 50000 --meas-pts 20000
 """
 import argparse
@@ -35,10 +36,11 @@ from src import ising
 H_PAPER = 1.0025
 T0, TMAX = 0.125, 0.625
  
-# T_cold come scritto nella didascalia della Fig. 3. Si puo' cambiare da terminale con
-# --tcold (es. --tcold 0.00125: a quella T il modello da' M ~ 0.966 come il punto blu del paper).
+# T_cold usata nelle simulazioni: 0.00125 (a quella T il modello da' M ~ 0.966 come il punto blu del
+# paper). TCOLD_CAPTION e' il valore scritto nella didascalia della Fig. 3 (la tabella lo riporta in una
+# riga a parte). Si puo' cambiare da terminale con --tcold.
 TCOLD_CAPTION = 0.0125
-TCOLD = 0.0125
+TCOLD = 0.00125
 PAPER_T = np.array([TCOLD, T0, TMAX])
 PAPER_NAMES = ["T_cold", "T_0", "T_max"]
  
@@ -53,8 +55,9 @@ PAPER_REF = {
 # ---- configurazioni ------------------------------------------------------
 FULL = dict(
     n_relax=10000, n_rep_relax=40,                               # fig1
-    H_list=[0.0, 0.5, H_PAPER, 1.5],                             # fig2
+    H_list=[0.0, 0.25, 0.5, 0.99, H_PAPER, 1.5, 2.0],            # fig2
     n_T=35, n_burn=3000, n_meas=2000, n_rep=30,
+    n_T_lin=19, T_lin_lo=0.3, T_lin_hi=1.2,                      # fig2: punti extra, equispaziati, attorno a T_c(h)
     n_T_curve=50, n_burn_curve=5000, n_meas_curve=5000, n_rep_curve=25,   # fig4
     h_map=np.linspace(0.0, 2.0, 21),                             # fig3
     n_T_map=23, n_burn_map=1500, n_meas_map=1000, n_rep_map=10,
@@ -62,8 +65,9 @@ FULL = dict(
 )
 QUICK = dict(
     n_relax=300, n_rep_relax=6,
-    H_list=[0.0, 0.5, H_PAPER, 1.5],
+    H_list=[0.0, 0.25, 0.5, 0.99, H_PAPER, 1.5, 2.0],
     n_T=8, n_burn=60, n_meas=60, n_rep=4,
+    n_T_lin=4, T_lin_lo=0.3, T_lin_hi=1.2,
     n_T_curve=10, n_burn_curve=60, n_meas_curve=60, n_rep_curve=4,
     h_map=np.linspace(0.0, 2.0, 7),
     n_T_map=7, n_burn_map=40, n_meas_map=40, n_rep_map=3,
@@ -249,27 +253,36 @@ def fig1_rilassamento(L, cfg, outdir):
  
  
 def fig2_equilibrio_T(L, cfg, outdir):
-    """<M>, <S>, <e> di equilibrio vs T per diversi h (T logaritmica)."""
-    T_grid = T_grid_geom(cfg["n_T"])
+    """<M>, <S>, <e> di equilibrio vs T per diversi h: riga in alto T logaritmica, riga in basso T lineare.
+    La griglia di T e' quella geometrica (fitta a bassa T) piu' alcuni punti equispaziati tra T_lin_lo e
+    T_lin_hi, per risolvere la transizione ordine-disordine a T_c(h) (h < 1), dove S cambia molto in poco T."""
+    T_grid = np.unique(np.concatenate([T_grid_geom(cfg["n_T"]),
+                                       np.linspace(cfg["T_lin_lo"], cfg["T_lin_hi"], cfg["n_T_lin"])]))
     mean, err = scan(L, cfg["H_list"], T_grid, cfg["n_burn"], cfg["n_meas"], cfg["n_rep"])
     save_data(outdir, "dati_fig2.npz", h=cfg["H_list"], T=T_grid, mean=mean, err=err)
-    fig, axes = plt.subplots(1, 3, figsize=(15, 4.8))
-    for a, h in enumerate(cfg["H_list"]):
+    fig, axes = plt.subplots(2, 3, figsize=(16, 9))
+    for row in range(2):
+        for a, h in enumerate(cfg["H_list"]):
+            for k in range(3):
+                axes[row, k].errorbar(T_grid, mean[a, :, k], yerr=err[a, :, k],
+                                      marker="o", ms=3, capsize=2, label=f"h = {h}")
+    for row, scale in enumerate(("log", "linear")):
         for k in range(3):
-            axes[k].errorbar(T_grid, mean[a, :, k], yerr=err[a, :, k],
-                             marker="o", ms=3, capsize=2, label=f"h = {h}")
-    for k in range(3):
-        axes[k].set_xscale("log")
-        axes[k].set_xlabel("T")
-        axes[k].set_ylabel(LABELS[k])
-        axes[k].grid(alpha=0.3, which="both")
-        mark_paper_T(axes[k], "v", labels=(k == 0))
-    axes[0].legend(fontsize=8)
-    fig.suptitle(f"Equilibrio vs T  (L = {L};  linee verticali: $T_{{cold}}$, $T_0$, $T_{{max}}$ del paper)")
+            ax = axes[row, k]
+            ax.set_xscale(scale)
+            ax.set_xlabel("T" + ("  (scala log)" if scale == "log" else "  (scala lineare)"))
+            ax.set_ylabel(LABELS[k])
+            ax.grid(alpha=0.3, which="both")
+            mark_paper_T(ax, "v", labels=(row == 0 and k == 0))
+        if scale == "linear":
+            for k in range(3):
+                axes[row, k].set_xlim(0, T_grid[-1] * 1.02)
+    axes[0, 0].legend(fontsize=8)
+    fig.suptitle(f"Equilibrio vs T (L = {L})")
     fig.tight_layout()
     save_fig(fig, outdir, "fig2_equilibrio_T.png")
- 
- 
+
+
 def fig3_mappa(L, cfg, outdir):
     """Mappe di <M> e <S> nel piano (h, T). T in scala log, celle che coprono tutto il piano."""
     h_map = np.unique(np.concatenate([cfg["h_map"], [H_PAPER]]))
@@ -351,7 +364,7 @@ if __name__ == "__main__":
     ap.add_argument("--rep-pts", type=int, help="numero di repliche per la tabella")
     ap.add_argument("--seed", type=int, default=12345)
     ap.add_argument("--tcold", type=float, default=TCOLD,
-                    help="T_cold usata (default 0.0125, come nella didascalia del paper)")
+                    help="T_cold usata (default 0.00125; la didascalia del paper riporta 0.0125)")
     ap.add_argument("--curve-rep", type=int, help="repliche per i punti della curva M-S (fig. 4)")
     ap.add_argument("--curve-meas", type=int, help="MC steps di misura per i punti della curva M-S")
     ap.add_argument("--init", choices=list(ising.INIT) + ["auto"], default="auto",
@@ -395,4 +408,3 @@ if __name__ == "__main__":
  
     if not args.no_show and args.only != "table":
         plt.show()
- 
