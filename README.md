@@ -25,10 +25,19 @@ A T_cold le configurazioni casuale e "all up" mostrano un delle curve sovrapponi
 
 
 <p align="center">
+  <img src="figures/ufficiali/mappa_h_T.png" width="700">
+  <br>
+  <em>
+  Figura 2: Mappa in funzione di h e T
+  </em>
+</p>
+
+
+<p align="center">
   <img src="figures/eq_locus_per_h.png" width="700">
   <br>
   <em>
-  Figura 2: Curve di equilibrio nel piano < M > vs < S > per diversi valori del campo h
+  Figura 3: Curve di equilibrio nel piano < M > vs < S > per diversi valori del campo h
   </em>
 </p>
 
@@ -37,7 +46,7 @@ A T_cold le configurazioni casuale e "all up" mostrano un delle curve sovrapponi
   <img src="figures/ufficiali/locus_equilibrio.png" width="700">
   <br>
   <em>
-  Figura 3: Curva di equilibrio
+  Figura 4: Curva di equilibrio
   </em>
 </p>
 
