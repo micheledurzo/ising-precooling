@@ -62,7 +62,7 @@ ALLA LUCE DI QUANTO OSSERVATO SI CERCA DI APPROFONDIRE (DA AGGIUNGERE)
 
 
 <p align="center">
-  <img src="figures/ufficiali/M_S_fuori_eq.png" width="900">
+  <img src="figures/ufficiali/M_S_fuori_eq.png" width="800">
   <br>
   <em>
   Figura 6: Evoluzione di M ed S durante le traiettorie fuori equilibrio 
