@@ -53,10 +53,10 @@ ALLA LUCE DI QUANTO OSSERVATO SI CERCA DI APPROFONDIRE (DA AGGIUNGERE)
 
 ## Traiettorie fuori equilibrio 
 <p align="center">
-  <img src="figures/traiettorie_fuori_eq.png" width="900">
+  <img src="figures/ufficiali/fuori_eq_giusta.png" width="900">
   <br>
   <em>
-  Figura 4: Traiettorie fuori equilibrio
+  Figura 5: Traiettorie fuori equilibrio
   </em>
 </p>
 
