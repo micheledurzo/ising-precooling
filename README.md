@@ -41,7 +41,8 @@ Dai grafici seguenti si nota che, per h < h_c = 1, il sistema ha una transizione
   </em>
 </p>
 
-ALLA LUCE DI QUANTO OSSERVATO SI CERCA DI APPROFONDIRE (DA AGGIUNGERE)
+ALLA LUCE DI QUANTO OSSERVATO SI CERCA DI APPROFONDIRE (DA AGGIUNGERE).\
+SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
 
 <p align="center">
   <img src="figures/ufficiali/locus_equilibrio.png" width="700">
@@ -60,6 +61,16 @@ ALLA LUCE DI QUANTO OSSERVATO SI CERCA DI APPROFONDIRE (DA AGGIUNGERE)
   </em>
 </p>
 
+
+<p align="center">
+  <img src="figures/ufficiali/M_S_fuori_eq.png" width="800">
+  <br>
+  <em>
+  Figura 6: Evoluzione di M ed S durante le traiettorie fuori equilibrio 
+  </em>
+</p>
+
+## Protocolli di riscaldamento
 
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
