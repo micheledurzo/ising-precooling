@@ -79,33 +79,33 @@ SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
 </p>
 
 ## Protocolli di riscaldamento
-<p align="center">
-  <img src="figures/ufficiali/.png" width="800">
-  <br>
-  <em>
-  Figura 8: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale
-  </em>
-</p>
-
-<p align="center">
-  <img src="figures/ufficiali/.png" width="800">
-  <br>
-  <em>
-  Figura 9: Evoluzione temporale di M ed S durante i protocolli
-  </em>
-</p>
-
 Allo scopo di cercare il tempo di precooling (tau) ottimale si effettua una scansione. Per ogni tau si misurano le medie di Delta_e e Delta_S in una finestra di tempo di riscaldamento \[2N, 6N]\ MC step dopo il cambio di temperatura a T_max. Viene scelto il tau che minimizza |<Delta_e>|.\
 Come controllo di consistenza, dove |Delta_e| è minimo, |Delta_S| deve risultare molto piccolo e/o attraversare lo zero in un suo intorno.
 
 <p align="center">
-  <img src="figures/ufficiali/.png" width="800">
+  <img src="figures/ufficiali/scan_tau.png" width="800">
   <br>
   <em>
-  Figura 10: Scansione di tau (tempo di precooling)
+  Figura 8: Scansione di tau (tempo di precooling)
   </em>
 </p>
 
+
+<p align="center">
+  <img src="figures/ufficiali/giusta_lunga.png" width="800">
+  <br>
+  <em>
+  Figura 9: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/evol_prot.png" width="800">
+  <br>
+  <em>
+  Figura 10: Evoluzione temporale di M ed S durante i protocolli
+  </em>
+</p>
 
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
