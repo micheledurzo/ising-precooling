@@ -80,7 +80,7 @@ SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
 
 ## Protocolli di riscaldamento
 <p align="center">
-  <img src="figures/ufficiali/.png" width="800">
+  <img src="figures/ufficiali/giusta_lunga.png" width="800">
   <br>
   <em>
   Figura 8: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale
