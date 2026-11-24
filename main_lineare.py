@@ -101,9 +101,9 @@ if __name__ == "__main__":
     else:
         ax.axhline(0, color="k", lw=0.9)
         ax.set_ylabel(r"$D(t)=\dfrac{\langle e\rangle(t)-e_{eq}(T_{max})}{\langle e\rangle(0)-e_{eq}(T_{max})}$")
-    ax.set_xlabel("t  (MC step; precooling: tempo totale, include la fase fredda)")
+    ax.set_xlabel("t  (MC step)")
     scala = "asse y logaritmico" if args.semilogy else "scala lineare"
-    ax.set_title(f"Oven e precooling, {scala}   (L = {L},  T_cold = {Tc:g};  tratteggi verticali: tau)")
+    ax.set_title(f"Oven e precooling, {scala}   (L = {L},  T_cold = {Tc:g};  tau tratteggiato)")
     ax.grid(alpha=0.3)
     ax.legend(fontsize=9, loc="upper right")
     sec = ax.secondary_xaxis("top", functions=(lambda x: x / N, lambda x: x * N))
