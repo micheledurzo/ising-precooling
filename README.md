@@ -45,7 +45,7 @@ ALLA LUCE DI QUANTO OSSERVATO SI CERCA DI APPROFONDIRE (DA AGGIUNGERE).\
 SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
 
 <p align="center">
-  <img src="figures/ufficiali/transizione_ord_dis" width="700">
+  <img src="figures/ufficiali/transizione_ord_dis.png" width="700">
   <br>
   <em>
   Figura 4: Evoluzione verso l'equilibrio di M, S ed e per diversi valori del campo. Osservando S si nota la transizione di fase ordine-disordine quando h < h_c = 1.
