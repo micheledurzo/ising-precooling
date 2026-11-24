@@ -107,5 +107,21 @@ Come controllo di consistenza, dove |Delta_e| è minimo, |Delta_S| deve risultar
   </em>
 </p>
 
+<p align="center">
+  <img src="figures/ufficiali/D_linear.png" width="800">
+  <br>
+  <em>
+  Figura 11: Distanza di energia dall'equilibrio normalizzata
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/semilogy.png" width="800">
+  <br>
+  <em>
+  Figura 11: Distanza di energia dall'equilibrio normalizzata in scala semilog-y
+  </em>
+</p>
+
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
