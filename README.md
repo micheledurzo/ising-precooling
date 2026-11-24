@@ -45,10 +45,18 @@ ALLA LUCE DI QUANTO OSSERVATO SI CERCA DI APPROFONDIRE (DA AGGIUNGERE).\
 SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
 
 <p align="center">
+  <img src="figures/ufficiali/transizione_ord_dis.png" width="800">
+  <br>
+  <em>
+  Figura 4: Evoluzione verso l'equilibrio di M, S ed e per diversi valori del campo. Osservando S si nota la transizione di fase ordine-disordine quando h < h_c = 1.
+  </em>
+</p>
+
+<p align="center">
   <img src="figures/ufficiali/locus_equilibrio.png" width="700">
   <br>
   <em>
-  Figura 4: Curva di equilibrio
+  Figura 5: Curva di equilibrio
   </em>
 </p>
 
@@ -57,7 +65,7 @@ SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
   <img src="figures/ufficiali/fuori_eq_giusta.png" width="900">
   <br>
   <em>
-  Figura 5: Traiettorie fuori equilibrio
+  Figura 6: Traiettorie fuori equilibrio
   </em>
 </p>
 
@@ -66,11 +74,38 @@ SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
   <img src="figures/ufficiali/M_S_fuori_eq.png" width="800">
   <br>
   <em>
-  Figura 6: Evoluzione di M ed S durante le traiettorie fuori equilibrio 
+  Figura 7: Evoluzione di M ed S durante le traiettorie fuori equilibrio 
   </em>
 </p>
 
 ## Protocolli di riscaldamento
+<p align="center">
+  <img src="figures/ufficiali/.png" width="800">
+  <br>
+  <em>
+  Figura 8: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/.png" width="800">
+  <br>
+  <em>
+  Figura 9: Evoluzione temporale di M ed S durante i protocolli
+  </em>
+</p>
+
+Allo scopo di cercare il tempo di precooling (tau) ottimale si effettua una scansione. Per ogni tau si misurano le medie di Delta_e e Delta_S in una finestra di tempo di riscaldamento \[2N, 6N]\ MC step dopo il cambio di temperatura a T_max. Viene scelto il tau che minimizza |<Delta_e>|.\
+Come controllo di consistenza, dove |Delta_e| è minimo, |Delta_S| deve risultare molto piccolo e/o attraversare lo zero in un suo intorno.
+
+<p align="center">
+  <img src="figures/ufficiali/.png" width="800">
+  <br>
+  <em>
+  Figura 10: Scansione di tau (tempo di precooling)
+  </em>
+</p>
+
 
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
