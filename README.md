@@ -123,5 +123,27 @@ Come controllo di consistenza, dove |Delta_e| è minimo, |Delta_S| deve risultar
   </em>
 </p>
 
+## Discrepanza dal paper
+Nell'articolo si utilizza T_cold = 0.0125 (non 0.00125) e tau = 1850. Facendo un'analisi con quella temperatura di precooling, però, la scansione del tau ottimale restituisce un valore decisamente più alto e non si osserva il vantaggio del protocollo a due step. Lo stesso risultato infelice si ottiene forzando tau ad essere pari a 1850 come da paper.\
+Il dubbio è che nell'articolo vi sia un errore nella descrizione della didascalia che introduce il valore di T_cold. In effetti, il punto di equilibrio del locus corrispondente a T_cold = 0.00125 (usato qui) ha lo stesso valore di <M> del punto di equilibrio a T_cold = 0.0125 (usato nell'articolo), sebbene la <S> sia differente. Rimane aperta la questione.\
+Di seguito vengono riportati i grafici scorretti ottenuti usando la T di precooling come da paper.
+
+<p align="center">
+  <img src="figures/prova/.png" width="600">
+  <br>
+  <em>
+  Figura 12: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale scorretti (per T_cold = 0.0125)
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/prove/.png" width="600">
+  <br>
+  <em>
+  Figura 13: Scansione di tau scorretta (per T_cold = 0.0125) 
+  </em>
+</p>
+
+
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
