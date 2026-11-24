@@ -83,7 +83,7 @@ Allo scopo di cercare il tempo di precooling (tau) ottimale si effettua una scan
 Come controllo di consistenza, dove |Delta_e| è minimo, |Delta_S| deve risultare molto piccolo e/o attraversare lo zero in un suo intorno.
 
 <p align="center">
-  <img src="figures/ufficiali/.png" width="800">
+  <img src="figures/ufficiali/scan_tau.png" width="800">
   <br>
   <em>
   Figura 8: Scansione di tau (tempo di precooling)
@@ -100,7 +100,7 @@ Come controllo di consistenza, dove |Delta_e| è minimo, |Delta_S| deve risultar
 </p>
 
 <p align="center">
-  <img src="figures/ufficiali/.png" width="800">
+  <img src="figures/ufficiali/evol_prot.png" width="800">
   <br>
   <em>
   Figura 10: Evoluzione temporale di M ed S durante i protocolli
