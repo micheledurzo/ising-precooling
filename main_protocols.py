@@ -65,9 +65,9 @@ T0, TMAX = 0.125, 0.625
 TCOLD = 0.00125                      # modificabile con --tcold
 
 # Parametri "in unita' di N" dove ha senso (N = L*L): tutto in MC step (tentativi) alla fine.
-FULL = dict(n_rep=4000, burn_N=200, tmax_N=200, n_rec=80, scan_rep=2000, scan_nT=12,
+FULL = dict(n_rep=6000, burn_N=200, tmax_N=200, n_rec=80, scan_rep=2000, scan_nT=25,
             tau_lo_N=0.05, tau_hi_N=30, win_lo_N=2, win_hi_N=6, win_pts=5,
-            locus_nT=16, locus_rep=30, locus_burn=500, locus_meas=1000)
+            locus_nT=35, locus_rep=30, locus_burn=1500, locus_meas=2500)
 LIN_MAX_N = 30      # la parte lineare della griglia dei tempi arriva a 30*N MC step
 N_LIN = 90          # numero di punti della parte lineare
 
@@ -280,7 +280,7 @@ def fig_main(L, Tc, locus, eq, oven, gray, cold, pres, outdir):
     # --- piano M-S ---
     axp.plot(locus["M"], locus["S"], "-o", color="0.6", ms=3.5, lw=1.5, zorder=1, label="locus di equilibrio")
     axp.plot(cold["M"], cold["S"], ":", color="tab:orange", lw=2.2, zorder=3,
-             label=r"$\pi(T_0)$ accoppiato a $T_{cold}$ (non chiuso)")
+             label=r"$\pi(T_0)$ accoppiato a $T_{cold}$ ")
     axp.plot(gray["M"], gray["S"], "-", color="tab:green", lw=1.8, zorder=3,
              label=r"oven da $\pi(T_{cold})$ a $T_{max}$")
     axp.plot(oven["M"], oven["S"], "-", color="tab:blue", lw=2.4, zorder=4, label=r"oven: $T_0 \to T_{max}$")
@@ -288,7 +288,7 @@ def fig_main(L, Tc, locus, eq, oven, gray, cold, pres, outdir):
     for k, pc in enumerate(pres):
         col = cmap(0.45 + 0.5 * (k + 1) / len(pres))
         axp.plot(pc["M"], pc["S"], "-", color=col, lw=2.4, zorder=5,
-                 label=f"precooling, tau = {pc['tau']} MC step")
+                 label=f"precooling (tau = {pc['tau']} MC step)")
         i = int(np.searchsorted(pc["t"], pc["tau"]))
         axp.plot(pc["M"][i], pc["S"][i], "s", color=col, mec="k", ms=7, zorder=6)
     for T, nm, mk, c in ((T0, r"$\pi(T_0)$", "o", "k"), (Tc, r"$\pi(T_{cold})$", "o", "tab:cyan"),
@@ -298,7 +298,7 @@ def fig_main(L, Tc, locus, eq, oven, gray, cold, pres, outdir):
         axp.annotate(nm, (q["M"], q["S"]), textcoords="offset points", xytext=(6, 6), fontsize=9)
     axp.set_xlabel(r"$\langle M\rangle$")
     axp.set_ylabel(r"$\langle S\rangle$")
-    axp.set_title("piano M-S  (quadrati = istante tau)")
+    axp.set_title("piano M-S")
     axp.grid(alpha=0.3)
     axp.legend(fontsize=7.5, loc="best")
 
@@ -322,15 +322,14 @@ def fig_main(L, Tc, locus, eq, oven, gray, cold, pres, outdir):
     axe.set_xscale("log")
     axe.set_yscale("log")
     axe.set_ylim(bottom=0.4 * floor)
-    axe.set_xlabel("t  (MC step = tentativo di flip; precooling: tempo totale, include la fase fredda)")
+    axe.set_xlabel("t  (MC step)")
     axe.set_ylabel(r"$|\langle e\rangle(t)-e_{eq}(T_{max})|$")
-    axe.set_title("distanza di energia dall'equilibrio finale  (linee tratteggiate: tau)")
+    axe.set_title("distanza di energia dall'equilibrio finale  (tau tratteggiata)")
     axe.grid(alpha=0.3, which="both")
     axe.legend(fontsize=7.5, loc="best")
     sec = axe.secondary_xaxis("top", functions=(lambda x: x / N, lambda x: x * N))
     sec.set_xlabel("t  (sweep = L*L MC step)", fontsize=8)
-    fig.suptitle(f"Protocolli oven e precooling   (h = {H_PAPER},  L = {L},  T_0 = {T0:g},  T_cold = {Tc:g},"
-                 f"  T_max = {TMAX:g})")
+    fig.suptitle(f"Protocolli oven e precooling   (h = {H_PAPER},  L = {L})")
     save_fig(fig, outdir, "fig8_protocolli.png")
 
 
@@ -344,7 +343,7 @@ def fig_time(L, Tc, eq, oven, gray, cold, pres, outdir):
                  (gray, "tab:green", "-", r"oven da $\pi(T_{cold})$"),
                  (cold, "tab:orange", ":", r"resta a $T_{cold}$")]
         for k, pc in enumerate(pres):
-            items.append((pc, cmap(0.45 + 0.5 * (k + 1) / len(pres)), "-", f"precooling, tau = {pc['tau']}"))
+            items.append((pc, cmap(0.45 + 0.5 * (k + 1) / len(pres)), "-", f"precooling (tau = {pc['tau']})"))
         for p, col, ls, name in items:
             ok = p["t"] > 0
             ax.plot(p["t"][ok], p[key][ok], color=col, ls=ls, lw=2, label=name)
@@ -357,7 +356,7 @@ def fig_time(L, Tc, eq, oven, gray, cold, pres, outdir):
         ax.set_xscale("log")
         ax.grid(alpha=0.3, which="both")
     axes[0].legend(fontsize=7.5, loc="best")
-    axes[1].set_xlabel("t  (MC step = tentativo di flip)")
+    axes[1].set_xlabel("t  (MC step)")
     sec = axes[0].secondary_xaxis("top", functions=(lambda x: x / N, lambda x: x * N))
     sec.set_xlabel("t  (sweep = L*L MC step)", fontsize=8)
     fig.suptitle(f"<M>(t) e <S>(t) nei protocolli  (h = {H_PAPER},  L = {L},  T_cold = {Tc:g})")
@@ -368,8 +367,8 @@ def fig_scan(L, Tc, taus, scan, oven_w, gray_w, win, outdir):
     N = L * L
     taus = np.asarray(taus)
     fig, axes = plt.subplots(2, 1, figsize=(8.5, 7.5), sharex=True, layout="constrained")
-    for ax, k, dk, lab in ((axes[0], "de", "dde", r"$\langle\Delta e\rangle$ in finestra   (x$10^{-3}$)"),
-                           (axes[1], "ds", "dds", r"$\langle\Delta S\rangle$ in finestra   (x$10^{-3}$)")):
+    for ax, k, dk, lab in ((axes[0], "de", "dde", r"$\langle\Delta e\rangle$ (x$10^{-3}$)"),
+                           (axes[1], "ds", "dds", r"$\langle\Delta S\rangle$ (x$10^{-3}$)")):
         y = np.array([s[k] for s in scan]) * 1e3
         e = np.array([s[dk] for s in scan]) * 1e3
         ax.errorbar(taus, y, yerr=e, fmt="-o", color="tab:red", capsize=3, label="precooling")
@@ -385,8 +384,7 @@ def fig_scan(L, Tc, taus, scan, oven_w, gray_w, win, outdir):
     axes[1].set_xlabel("tau  (MC step)")
     sec = axes[0].secondary_xaxis("top", functions=(lambda x: x / N, lambda x: x * N))
     sec.set_xlabel("tau  (sweep)", fontsize=8)
-    fig.suptitle(f"Scansione di tau  (L = {L}, T_cold = {Tc:g};  finestra di riscaldamento "
-                 f"[{win[0]}, {win[-1]}] MC step)")
+    fig.suptitle(f"Scansione di tau")
     save_fig(fig, outdir, "fig8c_scan_tau.png")
 
 
