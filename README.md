@@ -56,7 +56,7 @@ SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
   <img src="figures/ufficiali/locus_equilibrio.png" width="700">
   <br>
   <em>
-  Figura 4: Curva di equilibrio
+  Figura 5: Curva di equilibrio
   </em>
 </p>
 
@@ -65,7 +65,7 @@ SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
   <img src="figures/ufficiali/fuori_eq_giusta.png" width="900">
   <br>
   <em>
-  Figura 5: Traiettorie fuori equilibrio
+  Figura 6: Traiettorie fuori equilibrio
   </em>
 </p>
 
@@ -74,7 +74,7 @@ SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
   <img src="figures/ufficiali/M_S_fuori_eq.png" width="800">
   <br>
   <em>
-  Figura 6: Evoluzione di M ed S durante le traiettorie fuori equilibrio 
+  Figura 7: Evoluzione di M ed S durante le traiettorie fuori equilibrio 
   </em>
 </p>
 
