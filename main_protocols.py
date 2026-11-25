@@ -65,9 +65,9 @@ T0, TMAX = 0.125, 0.625
 TCOLD = 0.00125                      # modificabile con --tcold
 
 # Parametri "in unita' di N" dove ha senso (N = L*L): tutto in MC step (tentativi) alla fine.
-FULL = dict(n_rep=6000, burn_N=200, tmax_N=200, n_rec=80, scan_rep=2000, scan_nT=25,
+FULL = dict(n_rep=4000, burn_N=200, tmax_N=200, n_rec=80, scan_rep=2000, scan_nT=15,
             tau_lo_N=0.05, tau_hi_N=30, win_lo_N=2, win_hi_N=6, win_pts=5,
-            locus_nT=35, locus_rep=30, locus_burn=1500, locus_meas=2500)
+            locus_nT=20, locus_rep=30, locus_burn=1000, locus_meas=1000)
 LIN_MAX_N = 30      # la parte lineare della griglia dei tempi arriva a 30*N MC step
 N_LIN = 90          # numero di punti della parte lineare
 

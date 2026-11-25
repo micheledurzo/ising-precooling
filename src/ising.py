@@ -23,6 +23,7 @@ funziona lo stesso (identico risultato) ma e' decine di volte piu' lento.
 """
 import numpy as np
 from numba import njit
+
 J = -1.0                     # accoppiamento antiferromagnetico (J < 0)
 
 # codici delle condizioni iniziali (numba vuole numeri, non stringhe)
