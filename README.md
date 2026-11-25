@@ -9,6 +9,7 @@ Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la c
 - `main_traiettorie.py`: studio delle traiettorie fuori equilibrio
 - `main_protocols.py`: sviluppo dei protocolli oven e precooling
 - `main_lineare.py`: grafici lineari e semilog degli andamenti esponenziali
+- `main_sizescaling.py`: analisi del size-scaling della transizione
 - `figures/`: output delle simulazioni
 
 ## Analisi dell'equilibrio 
