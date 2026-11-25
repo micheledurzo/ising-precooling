@@ -140,7 +140,7 @@ Di seguito vengono riportati i grafici scorretti ottenuti usando la T di precool
 </p>
 
 <p align="center">
-  <img src="figures/prova/Tc_0125_tau_scan.png" width="700">
+  <img src="figures/prove/Tc_0125_tau_scan.png" width="700">
   <br>
   <em>
   Figura 13: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale scorretti (per T_cold = 0.0125). Tau libero ottimizzato dalla scansione
@@ -148,7 +148,7 @@ Di seguito vengono riportati i grafici scorretti ottenuti usando la T di precool
 </p>
 
 <p align="center">
-  <img src="figures/prova/Tc_0125_tau_2508.png" width="700">
+  <img src="figures/prove/Tc_0125_tau_2508.png" width="700">
   <br>
   <em>
   Figura 14: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale scorretti (per T_cold = 0.0125). Tau fissato dall'ottimizzazione a T_cold = 0.00125
@@ -160,7 +160,7 @@ La transizione da anti-ferromagnete a paramagnete avviene "teoricamente" nel lim
 Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
 
 <p align="center">
-  <img src="figures/prova/size_scaling.png" width="800">
+  <img src="figures/ufficiali/size_scaling.png" width="800">
   <br>
   <em>
   Figura 15: Size-scaling della transizione
