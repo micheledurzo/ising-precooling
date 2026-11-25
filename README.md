@@ -156,7 +156,16 @@ Di seguito vengono riportati i grafici scorretti ottenuti usando la T di precool
 </p>
 
 ## Appendice: size scaling qualitativo della transizione
+La transizione da anti-ferromagnete a paramagnete avviene "teoricamente" nel limite termodinamico. Infatti, fissando un valore del campo h e cambiando la dimensione L del sistema, si può notare un effetto di size-scaling qualitativo: il "salto" da S alti ad S bassi è più brusco all'aumentare della taglia del sistema.\
+Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
 
+<p align="center">
+  <img src="figures/prova/size_scaling.png" width="800">
+  <br>
+  <em>
+  Figura 15: Size-scaling della transizione
+  </em>
+</p>
 
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
