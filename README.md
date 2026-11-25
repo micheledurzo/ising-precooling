@@ -98,6 +98,8 @@ Come controllo di consistenza, dove |Delta_e| è minimo, |Delta_S| deve risultar
   </em>
 </p>
 
+Le fluttuazioni all'equilibrio risultano più "dense" appena raggiunto e diventano più rade oltre 10^5 MC step a causa di come è stata costruita la griglia dei tempi. Essi sono costituiti dall'unione di punti logaritmici e lineari fino a 30 N (147000 MC step), poi soltanto logaritmici fino a 200 N (980000 MC step).
+
 <p align="center">
   <img src="figures/ufficiali/evol_prot.png" width="800">
   <br>
@@ -121,6 +123,8 @@ Come controllo di consistenza, dove |Delta_e| è minimo, |Delta_S| deve risultar
   Figura 11: Distanza di energia dall'equilibrio normalizzata in scala semilog-y
   </em>
 </p>
+
+Nel grafico accanto alle traiettorie fuori equilibrio il rumore della distanza di energia sul plateau è dell'ordine 10^(-4). In questo grafico, invece, la distanza viene normalizzata usando < e >(0), ovvero l'energia per spin media sull'insieme preparato a T0, nonché la stima di e_eq(T0). Normalizzando qui lo stesso rumore risulta amplificato di circa un fattore 26. 
 
 ## Discrepanza dal paper
 Nell'articolo si utilizza T_cold = 0.0125 (non 0.00125) e tau = 1850. Facendo un'analisi con quella temperatura di precooling, però, la scansione del tau ottimale restituisce un valore decisamente più alto e non si osserva il vantaggio del protocollo a due step. Lo stesso risultato infelice si ottiene forzando tau ad essere pari a 1850 come da paper.\
