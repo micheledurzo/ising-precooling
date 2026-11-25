@@ -129,18 +129,26 @@ Il dubbio è che nell'articolo vi sia un errore nella descrizione della didascal
 Di seguito vengono riportati i grafici scorretti ottenuti usando la T di precooling come da paper.
 
 <p align="center">
-  <img src="figures/prova/.png" width="600">
+  <img src="figures/prove/scan_tau_sbagliata.png" width="700">
   <br>
   <em>
-  Figura 12: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale scorretti (per T_cold = 0.0125)
+  Figura 12: Scansione di tau scorretta (per T_cold = 0.0125) 
   </em>
 </p>
 
 <p align="center">
-  <img src="figures/prove/.png" width="600">
+  <img src="figures/prova/Tc_0125_tau_scan.png" width="700">
   <br>
   <em>
-  Figura 13: Scansione di tau scorretta (per T_cold = 0.0125) 
+  Figura 13: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale scorretti (per T_cold = 0.0125). Tau libero ottimizzato dalla scansione
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/prova/Tc_0125_tau_2508.png" width="700">
+  <br>
+  <em>
+  Figura 14: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale scorretti (per T_cold = 0.0125). Tau fissato dall'ottimizzazione a T_cold = 0.00125
   </em>
 </p>
 
