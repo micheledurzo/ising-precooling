@@ -41,8 +41,7 @@ Dai grafici seguenti si nota che, per h < h_c = 1, il sistema ha una transizione
   </em>
 </p>
 
-ALLA LUCE DI QUANTO OSSERVATO SI CERCA DI APPROFONDIRE (DA AGGIUNGERE).\
-SE C'è TEMPO VALUTARE GLI EFFETTI DEL SIZE SCALING USANDO L DIVERSI
+Alla luce di quanto osservato per la transizione, si rimanda ad un approfondimento qualitativo sul size scaling all'appendice.
 
 <p align="center">
   <img src="figures/ufficiali/transizione_ord_dis.png" width="800">
@@ -151,6 +150,8 @@ Di seguito vengono riportati i grafici scorretti ottenuti usando la T di precool
   Figura 14: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale scorretti (per T_cold = 0.0125). Tau fissato dall'ottimizzazione a T_cold = 0.00125
   </em>
 </p>
+
+## Appendice: size scaling qualitativo della transizione
 
 
 ## Author 
