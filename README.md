@@ -24,6 +24,8 @@ A T_cold le configurazioni casuale e "all up" mostrano un delle curve sovrapponi
   </em>
 </p>
 
+Per stato casuale/disordinato circa 0.8/L si intende il valore tipico di S per uno stato in cui gli spin sono indipendenti e casuali. Si tratta si un pavimento di taglia finita per cui S non è mai esattamente zero. Per uno stato del genere X = Σ (−1)^(i+j) σ_ij ha media nulla e varianza = 1. Su N= L^2 siti, per il teorema del limite centrale, X è una gaussiana con media nulla e varianza L^2 (std dev = L) che può essere scritta come X = Lg, dove g è una gaussiana standard.\
+S = |X|/N = L|g|/(L^2) = |g|/L da cui < | g| >/L = sqrt (2/pi) / L che è circa 0.8/L
 
 <p align="center">
   <img src="figures/ufficiali/mappa_h_T.png" width="700">
@@ -68,6 +70,11 @@ Alla luce di quanto osservato per la transizione, si rimanda ad un approfondimen
   Figura 6: Traiettorie fuori equilibrio
   </em>
 </p>
+
+Le fluttuazioni in S avvicinandosi all'equilibrio sono dovute a due effetti principali:\
+1. il rumore rimane piuttosto "congelato" all'inizio della traiettoria a causa della correlazione con S(t=0), poi man mano che la memoria della configurazione iniziale viene persa le diverse realizzazioni si decorrelano e vengono introdotte delle nuove fluttuazioni;\
+2. il rumore costituisce circa il 6% sulla variazione di S lungo la traiettoria. Quando la curva si muove in fretta (all'inizio) è poco visibile, mentre appare quando la curva "si ferma" vicino all'equilibrio.\
+M non mostra le stesse oscillazioni perché il suo rumore è circa lo 0.2% della sua variazione.
 
 
 <p align="center">
