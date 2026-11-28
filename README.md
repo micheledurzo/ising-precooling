@@ -175,5 +175,60 @@ Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
   </em>
 </p>
 
+# Aggiunta originale: interazione a secondi vicini (nnn)
+## Analisi dell'equilibrio
+
+<p align="center">
+  <img src="figures/ufficiali/nnn_mappa.png" width="800">
+  <br>
+  <em>
+  Figura 16: Size-scaling della transizione
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/snapshot_nnn.png" width="800">
+  <br>
+  <em>
+  Figura 15: Size-scaling della transizione
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/snapshot_02.png" width="800">
+  <br>
+  <em>
+  Figura 15: Size-scaling della transizione
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/nnn_rilassamento.png" width="800">
+  <br>
+  <em>
+  Figura 17: Size-scaling della transizione
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/nnn_equil_T.png" width="800">
+  <br>
+  <em>
+  Figura 18: Size-scaling della transizione
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/nnn_locus.png" width="800">
+  <br>
+  <em>
+  Figura 19: Size-scaling della transizione
+  </em>
+</p>
+
+PROBABILMENTE INTORNO A T0 C'è UNA TRANSIZIONE DELLE STRISCE (VEDI SNAPSHOT e EQUILIBRIO VS T)
+INTERPRETA ANCHE TUTTI LE ALTRE IMMAGINI
+
+
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
