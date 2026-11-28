@@ -226,7 +226,9 @@ Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
   </em>
 </p>
 
-PROBABILMENTE INTORNO A T0 C'è UNA TRANSIZIONE DELLE STRISCE (VEDI SNAPSHOT)
+PROBABILMENTE INTORNO A T0 C'è UNA TRANSIZIONE DELLE STRISCE (VEDI SNAPSHOT e EQUILIBRIO VS T)
+INTERPRETA ANCHE TUTTI LE ALTRE IMMAGINI
+
 
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
