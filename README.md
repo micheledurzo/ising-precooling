@@ -9,6 +9,7 @@ Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la c
 - `main_traiettorie.py`: studio delle traiettorie fuori equilibrio
 - `main_protocols.py`: sviluppo dei protocolli oven e precooling
 - `main_lineare.py`: grafici lineari e semilog degli andamenti esponenziali
+- `main_sizescaling.py`: analisi del size-scaling della transizione
 - `figures/`: output delle simulazioni
 
 ## Analisi dell'equilibrio 
@@ -23,6 +24,8 @@ A T_cold le configurazioni casuale e "all up" mostrano un delle curve sovrapponi
   </em>
 </p>
 
+Per stato casuale/disordinato circa 0.8/L si intende il valore tipico di S per uno stato in cui gli spin sono indipendenti e casuali. Si tratta si un pavimento di taglia finita per cui S non è mai esattamente zero. Per uno stato del genere X = Σ (−1)^(i+j) σ_ij ha media nulla e varianza = 1. Su N= L^2 siti, per il teorema del limite centrale, X è una gaussiana con media nulla e varianza L^2 (std dev = L) che può essere scritta come X = Lg, dove g è una gaussiana standard.\
+S = |X|/N = L|g|/(L^2) = |g|/L da cui < |g| >/L = sqrt (2/pi) / L che è circa 0.8/L
 
 <p align="center">
   <img src="figures/ufficiali/mappa_h_T.png" width="700">
@@ -67,6 +70,11 @@ Alla luce di quanto osservato per la transizione, si rimanda ad un approfondimen
   Figura 6: Traiettorie fuori equilibrio
   </em>
 </p>
+
+Le fluttuazioni in S avvicinandosi all'equilibrio sono dovute a due effetti principali:
+1. il rumore rimane piuttosto "congelato" all'inizio della traiettoria a causa della correlazione con S(t=0), poi man mano che la memoria della configurazione iniziale viene persa le diverse realizzazioni si decorrelano e vengono introdotte delle nuove fluttuazioni;
+2. il rumore costituisce circa il 6% sulla variazione di S lungo la traiettoria. Quando la curva si muove in fretta (all'inizio) è poco visibile, mentre appare quando la curva "si ferma" vicino all'equilibrio.
+M non mostra le stesse oscillazioni perché il suo rumore è circa lo 0.2% della sua variazione.
 
 
 <p align="center">
@@ -140,7 +148,7 @@ Di seguito vengono riportati i grafici scorretti ottenuti usando la T di precool
 </p>
 
 <p align="center">
-  <img src="figures/prova/Tc_0125_tau_scan.png" width="700">
+  <img src="figures/prove/Tc_0125_tau_scan.png" width="700">
   <br>
   <em>
   Figura 13: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale scorretti (per T_cold = 0.0125). Tau libero ottimizzato dalla scansione
@@ -148,7 +156,7 @@ Di seguito vengono riportati i grafici scorretti ottenuti usando la T di precool
 </p>
 
 <p align="center">
-  <img src="figures/prova/Tc_0125_tau_2508.png" width="700">
+  <img src="figures/prove/Tc_0125_tau_2508.png" width="700">
   <br>
   <em>
   Figura 14: Traiettorie dei protocolli rispetto al locus e distanza di energia dall'equilibrio finale scorretti (per T_cold = 0.0125). Tau fissato dall'ottimizzazione a T_cold = 0.00125
@@ -156,7 +164,16 @@ Di seguito vengono riportati i grafici scorretti ottenuti usando la T di precool
 </p>
 
 ## Appendice: size scaling qualitativo della transizione
+La transizione da anti-ferromagnete a paramagnete avviene "teoricamente" nel limite termodinamico. Infatti, fissando un valore del campo h e cambiando la dimensione L del sistema, si può notare un effetto di size-scaling qualitativo: il "salto" da S alti ad S bassi è più brusco all'aumentare della taglia del sistema.\
+Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
 
+<p align="center">
+  <img src="figures/ufficiali/size_scaling.png" width="800">
+  <br>
+  <em>
+  Figura 15: Size-scaling della transizione
+  </em>
+</p>
 
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
