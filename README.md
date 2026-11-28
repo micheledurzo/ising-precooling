@@ -3,13 +3,15 @@ Il progetto ha come obiettivo lo sviluppo della numerica e delle simulazioni in 
 Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la chiarezza. Le immagini e i grafici principali ottenuti sono riportati di seguito.
 
 ## Struttura dei codici 
-- `src/`: implementazione del modello
+- `src/`: implementazione del modello con interazione a primi vicini + a secondi vicini (NNN)
 - `main_eq.py`: studio dell'equilibrio di Ising AFM
 - `main_eq_locus.py`: implementazione del diagramma di fase e del locus di equilibrio
 - `main_traiettorie.py`: studio delle traiettorie fuori equilibrio
 - `main_protocols.py`: sviluppo dei protocolli oven e precooling
 - `main_lineare.py`: grafici lineari e semilog degli andamenti esponenziali
 - `main_sizescaling.py`: analisi del size-scaling della transizione
+- `main_nnn.py`: studio dell'equilibrio per il modello NNN
+- `main_snapshot_nnn.py`: sviluppo di snapshot 
 - `figures/`: output delle simulazioni
 
 ## Analisi dell'equilibrio 
