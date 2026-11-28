@@ -214,7 +214,7 @@ Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
   <img src="figures/ufficiali/nnn_rilassamento.png" width="800">
   <br>
   <em>
-  Figura 17: Rilassamento NNN
+  Figura 19: Rilassamento NNN
   </em>
 </p>
 
@@ -224,21 +224,26 @@ Il rilassamento all'equilibrio è molto più lungo rispetto al modello precedent
   <img src="figures/ufficiali/nnn_equil_T.png" width="800">
   <br>
   <em>
-  Figura 18: Size-scaling della transizione
+  Figura 20: 
   </em>
 </p>
+
+Mettendo insieme le informazioni fornite dalle figure precedenti si possono identificare due transizioni al variare di h a T=0: dalle strisce al plateau (ad h=1) e dal plateau a tutti up (ad h=2).\
+Ad h fissato e variando T, invece, emergono altri fenomeni interessanti\
+1. Fusione delle strisce ad h < 1: Q salta da circa 1 a circa 0 intorno a T=0.5
+2. Fusione delle strisce intorno ad h = 1: Q cala bruscamente intorno a T=0.25 e le due curve (verde e rosso) coincidono, per cui il sistema non distingue più se siamo sopra o sotto h=1 critico.
+3. Lo stesso fenomeno di fusione del plateau avviene ad h intermedi e vicino alla seconda transizione. Ad esempio, fissando h=1.99, S e Q crollano a temperature bassissime mentre M cresce e il sistema comincia a magnetizzarsi anticipando l'entrata alla fase "tutti up".
+
 
 <p align="center">
   <img src="figures/ufficiali/nnn_locus.png" width="800">
   <br>
   <em>
-  Figura 19: Size-scaling della transizione
+  Figura 21: Locus di equilibrio per h del paper (h = 1.0025)
   </em>
 </p>
 
-PROBABILMENTE INTORNO A T0 C'è UNA TRANSIZIONE DELLE STRISCE (VEDI SNAPSHOT e EQUILIBRIO VS T)
-INTERPRETA ANCHE TUTTI LE ALTRE IMMAGINI
-
+Il locus conferma quanto scritto sopra a proposito della fusione delle strisce subito dopo T_max.
 
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
