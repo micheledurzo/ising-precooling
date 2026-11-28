@@ -3,13 +3,15 @@ Il progetto ha come obiettivo lo sviluppo della numerica e delle simulazioni in 
 Il codice è diviso in moduli indipendenti per migliorare la leggibilità e la chiarezza. Le immagini e i grafici principali ottenuti sono riportati di seguito.
 
 ## Struttura dei codici 
-- `src/`: implementazione del modello
+- `src/`: implementazione del modello con interazione a primi vicini + a secondi vicini (NNN)
 - `main_eq.py`: studio dell'equilibrio di Ising AFM
 - `main_eq_locus.py`: implementazione del diagramma di fase e del locus di equilibrio
 - `main_traiettorie.py`: studio delle traiettorie fuori equilibrio
 - `main_protocols.py`: sviluppo dei protocolli oven e precooling
 - `main_lineare.py`: grafici lineari e semilog degli andamenti esponenziali
 - `main_sizescaling.py`: analisi del size-scaling della transizione
+- `main_nnn.py`: studio dell'equilibrio per il modello NNN
+- `main_snapshot_nnn.py`: sviluppo di snapshot 
 - `figures/`: output delle simulazioni
 
 ## Analisi dell'equilibrio 
@@ -175,22 +177,30 @@ Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
   </em>
 </p>
 
-# Aggiunta originale: interazione a secondi vicini (nnn)
+# Aggiunta originale: interazione a secondi vicini (NNN)
 ## Analisi dell'equilibrio
 
 <p align="center">
   <img src="figures/ufficiali/nnn_mappa.png" width="800">
   <br>
   <em>
-  Figura 16: Size-scaling della transizione
+  Figura 16: Mappa delle osservabili per T ed h
   </em>
 </p>
 
 <p align="center">
-  <img src="figures/ufficiali/snapshot_nnn.png" width="800">
+  <img src="figures/ufficiali/nnn_snapshot.png" width="800">
   <br>
   <em>
-  Figura 15: Size-scaling della transizione
+  Figura 17: Snapshot delle tre fasi ben distinte
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/nnn_snapshot_cr.png" width="800">
+  <br>
+  <em>
+  Figura 17: Snapshot delle tre fasi prima e dopo i valori critici del campo
   </em>
 </p>
 
@@ -198,7 +208,7 @@ Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
   <img src="figures/ufficiali/snapshot_02.png" width="800">
   <br>
   <em>
-  Figura 15: Size-scaling della transizione
+  Figura 18: Snapshot delle tre fasi aumentando la temperatura
   </em>
 </p>
 
@@ -206,29 +216,36 @@ Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
   <img src="figures/ufficiali/nnn_rilassamento.png" width="800">
   <br>
   <em>
-  Figura 17: Size-scaling della transizione
+  Figura 19: Rilassamento NNN
   </em>
 </p>
+
+Il rilassamento all'equilibrio è molto più lungo rispetto al modello precedente: viene ricordato per più tempo lo stato iniziale.
 
 <p align="center">
   <img src="figures/ufficiali/nnn_equil_T.png" width="800">
   <br>
   <em>
-  Figura 18: Size-scaling della transizione
+  Figura 20: 
   </em>
 </p>
+
+Mettendo insieme le informazioni fornite dalle figure precedenti si possono identificare due transizioni al variare di h a T=0: dalle strisce al plateau (ad h=1) e dal plateau a tutti up (ad h=2).\
+Ad h fissato e variando T, invece, emergono altri fenomeni interessanti\
+1. Fusione delle strisce ad h < 1: Q salta da circa 1 a circa 0 intorno a T=0.5
+2. Fusione delle strisce intorno ad h = 1: Q cala bruscamente intorno a T=0.25 e le due curve (verde e rosso) coincidono, per cui il sistema non distingue più se siamo sopra o sotto h=1 critico.
+3. Lo stesso fenomeno di fusione del plateau avviene ad h intermedi e vicino alla seconda transizione. Ad esempio, fissando h=1.99, S e Q crollano a temperature bassissime mentre M cresce e il sistema comincia a magnetizzarsi anticipando l'entrata alla fase "tutti up".
+
 
 <p align="center">
   <img src="figures/ufficiali/nnn_locus.png" width="800">
   <br>
   <em>
-  Figura 19: Size-scaling della transizione
+  Figura 21: Locus di equilibrio per h del paper (h = 1.0025)
   </em>
 </p>
 
-PROBABILMENTE INTORNO A T0 C'è UNA TRANSIZIONE DELLE STRISCE (VEDI SNAPSHOT e EQUILIBRIO VS T)
-INTERPRETA ANCHE TUTTI LE ALTRE IMMAGINI
-
+Il locus conferma quanto scritto sopra a proposito della fusione delle strisce subito dopo T_max.
 
 ## Author 
 Michele D'Urzo per l'esame di Sistemi Complessi Avanzati
