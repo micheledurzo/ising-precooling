@@ -175,22 +175,30 @@ Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
   </em>
 </p>
 
-# Aggiunta originale: interazione a secondi vicini (nnn)
+# Aggiunta originale: interazione a secondi vicini (NNN)
 ## Analisi dell'equilibrio
 
 <p align="center">
   <img src="figures/ufficiali/nnn_mappa.png" width="800">
   <br>
   <em>
-  Figura 16: Size-scaling della transizione
+  Figura 16: Mappa delle osservabili per T ed h
   </em>
 </p>
 
 <p align="center">
-  <img src="figures/ufficiali/snapshot_nnn.png" width="800">
+  <img src="figures/ufficiali/nnn_snapshot.png" width="800">
   <br>
   <em>
-  Figura 15: Size-scaling della transizione
+  Figura 17: Snapshot delle tre fasi ben distinte
+  </em>
+</p>
+
+<p align="center">
+  <img src="figures/ufficiali/nnn_snapshot_cr.png" width="800">
+  <br>
+  <em>
+  Figura 17: Snapshot delle tre fasi prima e dopo i valori critici del campo
   </em>
 </p>
 
@@ -198,7 +206,7 @@ Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
   <img src="figures/ufficiali/snapshot_02.png" width="800">
   <br>
   <em>
-  Figura 15: Size-scaling della transizione
+  Figura 18: Snapshot delle tre fasi aumentando la temperatura
   </em>
 </p>
 
@@ -206,9 +214,11 @@ Dalla seguente immagine si nota che la temperatura critica sta intorno a 0.55
   <img src="figures/ufficiali/nnn_rilassamento.png" width="800">
   <br>
   <em>
-  Figura 17: Size-scaling della transizione
+  Figura 17: Rilassamento NNN
   </em>
 </p>
+
+Il rilassamento all'equilibrio è molto più lungo rispetto al modello precedente: viene ricordato per più tempo lo stato iniziale.
 
 <p align="center">
   <img src="figures/ufficiali/nnn_equil_T.png" width="800">
